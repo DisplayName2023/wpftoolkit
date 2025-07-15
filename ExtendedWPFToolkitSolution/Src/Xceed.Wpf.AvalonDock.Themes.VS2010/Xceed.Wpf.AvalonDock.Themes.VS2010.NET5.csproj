@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Xceed.Wpf.AvalonDock.Themes</RootNamespace>
     <AssemblyName>Xceed.Wpf.AvalonDock.Themes.VS2010</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

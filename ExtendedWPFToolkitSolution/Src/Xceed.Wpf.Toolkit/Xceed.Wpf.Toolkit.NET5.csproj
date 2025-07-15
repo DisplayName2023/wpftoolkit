@@ -7,7 +7,7 @@
   </PropertyGroup>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>Xceed.Wpf.Toolkit</RootNamespace>
     <AssemblyName>Xceed.Wpf.Toolkit</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

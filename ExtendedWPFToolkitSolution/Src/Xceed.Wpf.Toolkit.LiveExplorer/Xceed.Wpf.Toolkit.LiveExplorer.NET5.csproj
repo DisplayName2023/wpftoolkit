@@ -6,7 +6,7 @@
   </PropertyGroup>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Xceed.Wpf.Toolkit.LiveExplorer</RootNamespace>
     <AssemblyName>Xceed.Wpf.Toolkit.LiveExplorer</AssemblyName>
@@ -1422,19 +1422,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero.dll">
-      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.Aero\bin\$(Configuration)\net5.0-windows\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.Aero\bin\$(Configuration)\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro.dll">
-      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.Metro\bin\$(Configuration)\net5.0-windows\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.Metro\bin\$(Configuration)\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010.dll">
-      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.VS2010\bin\$(Configuration)\net5.0-windows\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>..\Xceed.Wpf.AvalonDock.Themes.VS2010\bin\$(Configuration)\net8.0-windows\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.dll">
-      <HintPath>..\Xceed.Wpf.AvalonDock\bin\$(Configuration)\net5.0-windows\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>..\Xceed.Wpf.AvalonDock\bin\$(Configuration)\net8.0-windows\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit.dll">
-      <HintPath>..\Xceed.Wpf.Toolkit\bin\$(Configuration)\net5.0-windows\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>..\Xceed.Wpf.Toolkit\bin\$(Configuration)\net8.0-windows\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="..\..\Libs\Xceed.Wpf.Samples.SampleData.dll" />
   </ItemGroup>
