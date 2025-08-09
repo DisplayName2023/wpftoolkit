@@ -121,15 +121,22 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
 
     private PropertyItem CreatePropertyItem( PropertyDescriptor property, PropertyDefinition propertyDef )
     {
-      DescriptorPropertyDefinition definition = new DescriptorPropertyDefinition( property, SelectedObject, this.PropertyContainer );
+            var actualObj = SelectedObject;
+            var td = SelectedObject as ICustomTypeDescriptor;
+            if ( td != null )
+            {
+                actualObj = td.GetPropertyOwner(property) ?? SelectedObject;
+            }
+
+      DescriptorPropertyDefinition definition = new DescriptorPropertyDefinition( property, actualObj, this.PropertyContainer );
       definition.InitProperties();
 
       var categoryValue = definition.CategoryValue;
 
       this.InitializeDescriptorDefinition( definition, propertyDef );
       PropertyItem propertyItem = new PropertyItem( definition );
-      Debug.Assert( SelectedObject != null );
-      propertyItem.Instance = SelectedObject;
+      Debug.Assert( actualObj != null );
+      propertyItem.Instance = actualObj;
       propertyItem.CategoryOrder = this.GetCategoryOrder( categoryValue );
 
       propertyItem.WillRefreshPropertyGrid = this.GetWillRefreshPropertyGrid( property );
