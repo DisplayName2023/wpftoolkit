@@ -121,6 +121,7 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
 
     private PropertyItem CreatePropertyItem( PropertyDescriptor property, PropertyDefinition propertyDef )
     {
+            // WPF_PATCH
             var actualObj = SelectedObject;
             var td = SelectedObject as ICustomTypeDescriptor;
             if ( td != null )

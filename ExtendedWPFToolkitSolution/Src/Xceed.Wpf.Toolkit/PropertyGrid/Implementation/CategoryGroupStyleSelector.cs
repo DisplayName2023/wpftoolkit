@@ -39,9 +39,26 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
     public override Style SelectStyle( object item, DependencyObject container )
     {
       var group = item as CollectionViewGroup;
-      // Category is not "Misc" => use regular ItemGroupStyle
-      if( ( group.Name != null ) && !group.Name.Equals( CategoryAttribute.Default.Category ) )
-        return this.ItemGroupStyle;
+            // Category is not "Misc" => use regular ItemGroupStyle
+            if ((group.Name != null) && !group.Name.Equals(CategoryAttribute.Default.Category))
+            {
+                
+                // WPF_PATCH
+                if (group.Name.ToString().Length == 0 && group.IsBottomLevel)
+                {
+                    var pi = group.GetType().GetProperty("Parent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    var parentGroup = pi.GetValue(group) as CollectionViewGroup;
+                    if (parentGroup?.Items.Count == 1)
+                    {
+                        return this.SingleDefaultCategoryItemGroupStyle;
+                    }
+
+                }
+
+
+
+                return this.ItemGroupStyle;
+            }
 
       // Category is "Misc"
       while( container != null )
