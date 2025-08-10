@@ -47,7 +47,7 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
                 if (group.Name.ToString().Length == 0 && group.IsBottomLevel)
                 {
                     var pi = group.GetType().GetProperty("Parent", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                    var parentGroup = pi.GetValue(group) as CollectionViewGroup;
+                    var parentGroup = pi.GetValue(group, null) as CollectionViewGroup;
                     if (parentGroup?.Items.Count == 1)
                     {
                         return this.SingleDefaultCategoryItemGroupStyle;
