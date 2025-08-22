@@ -410,8 +410,14 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
 #if VS2008
         var displayName = PropertyDescriptor.DisplayName;
 #else
-      var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>( PropertyDescriptor );
-      var displayName = ( displayAttribute != null ) ? displayAttribute.GetName() : PropertyDescriptor.DisplayName;
+    // WPF_PATCH
+            var displayName = PropertyDescriptor.DisplayName;
+            if (displayName == null)
+            {
+                var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>(PropertyDescriptor);
+                displayName = (displayAttribute != null) ? displayAttribute.GetName() : PropertyDescriptor.DisplayName;
+            }
+
 #endif
 
       var attribute = PropertyGridUtilities.GetAttribute<ParenthesizePropertyNameAttribute>( PropertyDescriptor );
