@@ -77,19 +77,25 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
             }
             else
             {
+                // WPF_PATCH
+                            isBrowsable = descriptor.IsBrowsable && this.PropertyContainer.AutoGenerateProperties;
+                            bool useAttr = false;
+                            if (useAttr)
+                            {
 #if !VS2008
-              var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>( descriptor );
-              if( displayAttribute != null )
-              {
-                var autoGenerateField = displayAttribute.GetAutoGenerateField();
-                isBrowsable = this.PropertyContainer.AutoGenerateProperties
-                              && ( ( autoGenerateField.HasValue && autoGenerateField.Value ) || !autoGenerateField.HasValue );
-              }
-              else
+                                var displayAttribute = PropertyGridUtilities.GetAttribute<DisplayAttribute>(descriptor);
+                                if (displayAttribute != null)
+                                {
+                                    var autoGenerateField = displayAttribute.GetAutoGenerateField();
+                                    isBrowsable = this.PropertyContainer.AutoGenerateProperties
+                                                  && ((autoGenerateField.HasValue && autoGenerateField.Value) || !autoGenerateField.HasValue);
+                                }
+                                else
 #endif
-              {
-                isBrowsable = descriptor.IsBrowsable && this.PropertyContainer.AutoGenerateProperties;
-              }
+                                {
+                                    isBrowsable = descriptor.IsBrowsable && this.PropertyContainer.AutoGenerateProperties;
+                                }
+                            }
 
               if( propertyDef != null )
               {
