@@ -461,6 +461,10 @@ namespace Xceed.Wpf.Toolkit.PropertyGrid
       Type definitionKeyAsType = definitionKey as Type;
       ITypeEditor editor = null;
 
+      // WPF_PATCH
+      editor = pd.PropertyDescriptor.GetEditor(typeof(ITypeEditor)) as ITypeEditor;
+     
+
       if( editor == null )
         editor = pd.CreateAttributeEditor();
 
