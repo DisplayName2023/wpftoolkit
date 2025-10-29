@@ -1,6 +1,7 @@
 
 Write-Host "Script Path: ${PSScriptRoot}"
 
+
 $previousLocation = Get-Location
 
 Set-Location -Path ${PSScriptRoot}
@@ -9,6 +10,25 @@ $solutionDir = "${PSScriptRoot}\.."
 $solutionFile = "${solutionDir}\Xceed.Wpf.Toolkit.NET5.sln"
 
 $nuget = "${PSScriptRoot}\nuget.exe"
+
+$msbuild = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" `
+               -latest -products * -requires Microsoft.Component.MSBuild `
+               -find MSBuild\**\Bin\MSBuild.exe
+
+# Clean bin and obj folders recursively in Src
+Write-Host "Cleaning bin and obj folders recursively..."
+Get-ChildItem -Path "${solutionDir}\Src" -Directory -Recurse | ForEach-Object {
+  $bin = Join-Path $_.FullName "bin"
+  $obj = Join-Path $_.FullName "obj"
+  if (Test-Path $bin) {
+    Remove-Item $bin -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "Removed: $bin"
+  }
+  if (Test-Path $obj) {
+    Remove-Item $obj -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "Removed: $obj"
+  }
+}
 
 
 
@@ -30,10 +50,11 @@ foreach ($folder in $childFolders) {
   }
 }
 
+$mainProjectFile = "${solutionDir}\Src\Xceed.Wpf.Toolkit\Xceed.Wpf.Toolkit.csproj"
+# &dotnet build $mainProjectFile --configuration Release 
+& $msbuild $mainProjectFile /p:Configuration=Release /p:OutputPath="${solutionDir}\Src\Xceed.Wpf.Toolkit\bin\Release\net8.0-windows"
 
-&dotnet build $solutionFile --configuration Release 
 
-$mainDllFile = "${solutionDir}\Src\Xceed.Wpf.Toolkit\bin\Release\net8.0-windows\Xceed.Wpf.Toolkit.dll"
 
 # Extract BaseVersion from AssemblyVersionInfo.cs
 $assemblyInfoPath = "${solutionDir}\Src\Xceed.Wpf.Toolkit\AssemblyVersionInfo.cs"
@@ -46,8 +67,8 @@ if ($baseVersionLine -match '"([0-9]+\.[0-9]+)"') {
   exit 1
 }
 
-
 &dotnet pack $solutionFile --configuration Release -p:PackageVersion=$version
+# & $msbuild $mainProjectFile /t:Pack /p:Configuration=Release /p:PackageVersion=$version
 
 # Iterate over each child folder
 foreach ($folder in $childFolders) {
@@ -67,9 +88,15 @@ foreach ($folder in $childFolders) {
         Write-Error "File.FullName is null or empty"
         continue
       }
-      
-      # Upload the file with NuGet.exe
-      & $nuget push $file.FullName -Source Gitlab
+
+      if ($file.FullName -like "*Xceed.Wpf.Toolkit\bin*") {
+        Write-Host "Pushing $shortMainDllFile version $version from $($file.FullName)"
+
+        # Upload the file with NuGet.exe
+        & $nuget push $file.FullName -Source Gitlab
+      }
+
+
     }
   }
 }
