@@ -35,16 +35,25 @@ foreach ($folder in $childFolders) {
 
 $mainDllFile = "${solutionDir}\Src\Xceed.Wpf.Toolkit\bin\Release\net8.0-windows\Xceed.Wpf.Toolkit.dll"
 
-# Extract BaseVersion from AssemblyVersionInfo.cs
-$assemblyInfoPath = "${solutionDir}\Src\Xceed.Wpf.Toolkit\AssemblyVersionInfo.cs"
-$baseVersionLine = Get-Content $assemblyInfoPath | Where-Object { $_ -match 'public const string BaseVersion' }
-if ($baseVersionLine -match '"([0-9]+\.[0-9]+)"') {
-  $version = $matches[1] + ".0"
-  Write-Host "Extracted BaseVersion: $version"
-} else {
-  Write-Error "Could not extract BaseVersion from $assemblyInfoPath"
-  exit 1
+# use reflection to get the version of the main dll
+$assembly = [System.Reflection.Assembly]::LoadFile($mainDllFile)
+$version = $assembly.GetName().Version.ToString()
+Write-Host "Extracted DLL Version: $version"
+
+if ($false)
+{
+  # Extract BaseVersion from AssemblyVersionInfo.cs
+  $assemblyInfoPath = "${solutionDir}\Src\Xceed.Wpf.Toolkit\AssemblyVersionInfo.cs"
+  $baseVersionLine = Get-Content $assemblyInfoPath | Where-Object { $_ -match 'public const string BaseVersion' }
+  if ($baseVersionLine -match '"([0-9]+\.[0-9]+)"') {
+    $version = $matches[1] + ".0"
+    Write-Host "Extracted BaseVersion: $version"
+  } else {
+    Write-Error "Could not extract BaseVersion from $assemblyInfoPath"
+    exit 1
+  }
 }
+
 
 
 &dotnet pack $solutionFile --configuration Release -p:PackageVersion=$version
@@ -61,6 +70,11 @@ foreach ($folder in $childFolders) {
     foreach ($file in $nupkgFiles) {
       # Upload the file, but need high version of Gitlab to use dotnet cli with API key
       # &dotnet nuget push $file.FullName --source Gitlab
+
+      if ($file.FullName -like "*LiveExplorer*") {
+        Write-Host "Skipping LiveExplorer package upload: $($file.FullName)"
+        continue
+      }
 
       # check file.FuleName is not null
       if ([string]::IsNullOrWhiteSpace($file.FullName) -or $file.FullName.Length -eq 0) {
