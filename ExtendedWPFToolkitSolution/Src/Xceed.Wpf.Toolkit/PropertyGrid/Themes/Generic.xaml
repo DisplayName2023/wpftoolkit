@@ -983,7 +983,9 @@
 
     <Setter Property="Background"
             Value="{x:Static SystemColors.WindowBrush}" />
-    <!-- Set the margin at 1 pixel bottom to let the horizontal "line" effect appear. -->
+
+
+        <!-- Set the margin at 1 pixel bottom to let the horizontal "line" effect appear. -->
     <Setter Property="Margin"
             Value="0,0,0,1" />
     <Setter Property="VerticalContentAlignment"
@@ -1238,8 +1240,9 @@
             Value="#BCC7D8" />
     <Setter Property="BorderBrush"
             Value="#43577B" />
+
     <Setter Property="BorderThickness"
-            Value="1" />
+        Value="1" />
     <Setter Property="SelectedObjectType"
             Value="{Binding RelativeSource={RelativeSource Self}, Path=SelectedObject, Converter={StaticResource objectConverter}, ConverterParameter=Type}" />
     <Setter Property="SelectedObjectTypeName"
